@@ -122,6 +122,49 @@ or send them to
       <h2>Introduction</h2>
 
       <p>
+There are lots of KMS out there but no common API.
+      </p>
+      <p>
+If there were a common API, then you could create drivers for each specific KMS that map to the common API and write applications just once
+      </p>
+      <p>
+Drivers could potentially even wrap keystores like FIDO, etc.
+      </p>
+      <p>
+If the API was a Web API then you can write Web Apps against this API and servers can offer one or more KMSes -- and potentially even allow users to bring their own
+      </p>
+      <p>
+There is a relatively small set of common crypto operations that KMSes provide:
+      </p>
+      <p>
+A list is here: https://github.com/digitalbazaar/web-kms-switch/tree/http-sig/lib/schemas
+      </p>
+      <p>
+These crypto operations are all really just "methods" that operate on "objects" (keys) in a remote execution environment
+      </p>
+      <p>
+There's another spec, called Authorization Capabilities, that is all about remote execution environments with objects and methods -- and granting the authority to remote clients to call those methods on those objects via "capabilities" or "zcaps"
+      </p>
+      <p>
+A KMS can provide a Web KMS API that allows users to create keys and execute crypto operations on them by invoking zcaps
+      </p>
+      <p>
+The Web KMS API allows users to create keystores (a type of "object") that they control (the user is the "controller" of the keystore)
+      </p>
+      <p>
+The keystore has a method for generating a key (another type of "object") of a certain "type" and associating it with that keystore
+      </p>
+      <p>
+Each keystore and key is identified by a URI
+      </p>
+      <p>
+Each key has a set of "methods", according to its "type", that can be remotely executed via zcaps, such that the key material need never be exfiltrated in order to use the key
+      </p>
+      <p>
+In order to execute a method on a key, a KmsOperation of a specific type can be posted to the key URL (using HTTPS), including a zcap invocation via http signatures
+      </p>
+      <p>
+A keystore's controller can be changed to enable transfer of keys or to add other parties to help manage the keys
       </p>
 
       <section class="informative">
