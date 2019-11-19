@@ -172,15 +172,62 @@ specification:
         </p>
 
         <dl>
-          <dt>cryptographic agent</dt>
+          <dt>controller</dt>
           <dd>
-A role an <a>entity</a> might perform by
+A role an <a>entity</a> might perform by demonstrating control of
+cryptographic key material in order to authenticate itself with a system.
+          </dd>
+          <dt>key management client</dt>
+          <dd>
+A role an <a>entity</a> might perform by communicating with a Key Management
+System.
           </dd>
           <dt>key management system</dt>
           <dd>
-A role an <a>entity</a> might perform by
+A role an <a>entity</a> might perform by providing an interface to
+the management of cryptographic material and the execution of cryptographic
+operations.
           </dd>
         </dl>
+
+        <p>
+There is a relatively small set of common cryptographic operations that Key
+Management Systems provide. These operations include: generate, wrap, unwrap,
+sign, verify, encrypt, and decrypt. These cryptographic operations can be
+thought of as <em>functions</em> that operate on <em>objects</em>, in this case
+cryptographic keys, in a remote execution environment.
+        </p>
+        <p class="issue">
+Ensure that the list is updated from
+<a href="https://github.com/digitalbazaar/web-kms-switch/tree/http-sig/lib/schemas">here</a>.
+        </p>
+        <p>
+The Authorization Capabilities for Linked Data [[ZCAP-LD]] specification,  also
+know as ZCAPs, outlines how remote execution environments can be  manipulated by
+demonstrating cryptographic control of  <em>functions</em> and <em>objects</em>.
+The  ZCAP-LD specification enables one to grant authority to remote clients to
+call functions on specific objects. This technology enables a Key Management
+System to provide a Web-based API that enables clients to create keys and
+execute cryptographic operations using those keys by invoking ZCAPs.
+        </p>
+        <p>
+  The Web KMS API allows users to create keystores (a type of "object") that they control (the user is the "controller" of the keystore)
+        </p>
+        <p>
+  The keystore has a method for generating a key (another type of "object") of a certain "type" and associating it with that keystore
+        </p>
+        <p>
+  Each keystore and key is identified by a URI
+        </p>
+        <p>
+  Each key has a set of "methods", according to its "type", that can be remotely executed via zcaps, such that the key material need never be exfiltrated in order to use the key
+        </p>
+        <p>
+  In order to execute a method on a key, a KmsOperation of a specific type can be posted to the key URL (using HTTPS), including a zcap invocation via http signatures
+        </p>
+        <p>
+  A keystore's controller can be changed to enable transfer of keys or to add other parties to help manage the keys
+        </p>
 
       </section>
 
@@ -238,43 +285,6 @@ which form the foundation of this specification.
     <section class="normative">
       <h2>Data Model</h2>
 
-      <p>
-There is a relatively small set of common cryptographic operations that Key
-Management Systems provide. These operations include: generate, wrap, unwrap,
-sign, verify, encrypt, and decrypt. These cryptographic operations can be
-thought of as <em>functions</em> that  operate on <em>objects</em>, in this case
-cryptographic keys, in a  remote execution environment.
-      </p>
-      <p class="issue">
-Ensure that the list is updated from <a href="https://github.com/digitalbazaar/web-kms-switch/tree/http-sig/lib/schemas">here</a>.
-      </p>
-      <p>
-There's another spec, called Authorization Capabilities, that is all about
-remote execution environments with objects and methods -- and granting the
-authority to remote clients to call those methods on those objects via
-"capabilities" or "zcaps"
-      </p>
-      <p>
-A KMS can provide a Web KMS API that allows users to create keys and execute crypto operations on them by invoking zcaps
-      </p>
-      <p>
-The Web KMS API allows users to create keystores (a type of "object") that they control (the user is the "controller" of the keystore)
-      </p>
-      <p>
-The keystore has a method for generating a key (another type of "object") of a certain "type" and associating it with that keystore
-      </p>
-      <p>
-Each keystore and key is identified by a URI
-      </p>
-      <p>
-Each key has a set of "methods", according to its "type", that can be remotely executed via zcaps, such that the key material need never be exfiltrated in order to use the key
-      </p>
-      <p>
-In order to execute a method on a key, a KmsOperation of a specific type can be posted to the key URL (using HTTPS), including a zcap invocation via http signatures
-      </p>
-      <p>
-A keystore's controller can be changed to enable transfer of keys or to add other parties to help manage the keys
-      </p>
     </section>
 
   <section class="informative">
