@@ -246,25 +246,86 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         <h3>Use Cases and Requirements</h3>
 
         <p>
-The USE-CASES document outlines a number
-of key topics that readers might find useful, including:
+The following use cases outline a number of key scenarios that readers might
+find useful:
         </p>
 
         <ul>
           <li>
-TBD
+Manage Keystore - Edwin would like to enable his application to create
+and delete keystores. Each keystore will have one or more controllers that
+are capable of controlling the keystore, and keys within the keystore.
+Controllers of the individual keys might not be the same as the controllers
+for the keystore.
+          </li>
+          <li>
+Sign Data - Padthmini instructs her application to digitally sign a document
+using a hardware-backed cryptographic key. Her application forwards the
+authorized request to a hardware-backed key management system that performs the
+operation and returns the digital signature.
+          </li>
+          <li>
+Verify Data - Haneda has received a document with a digital signature. He
+uses an application to verify the digital signature. The application provides
+the signed cryptographic hash, the public key used to sign the hash, and
+the digital signature to verify. The key management system responds to the
+request noting the status of the verification.
+          </li>
+          <li>
+Wrap and Unwrap Key - Mimi would like to exchange messages with BanPo without
+worrying about people that might intercept the messages. Mimi uses her
+application to set up a secure communication link to BanPo. The application
+requests the creation of an encryption key that is then wrapped and encrypted
+in a way that only BanPo can extract. The wrapped encryption key is sent to
+BanPo's application, which then unwraps and stores the encryption key. The
+exchange is done in such a way where neither Mimi, nor BanPo, nor any
+intermediaries have access to the encryption key (only the keystores can
+see and use the encryption key).
+          </li>
+          <li>
+Encrypt and Decrypt Data - Mimi would like to exchange messages with BanPo
+without worrying about people that might intercept the messages. They have
+already exchanged symmetric encryption keys. Mimi uses her application to
+encrypt a message, which is then sent to BanPo. BanPo uses his application
+to decrypt the message. This is done without BanPo having access to the
+decryption key, only the keystore has access to the decryption key.
+          </li>
+          <li>
+Bring Your Own Keystore - Kuwele would like to write his application to use a
+variety of 3rd party key management systems without having to manage drivers for
+each key management system. He finds a set of keystores using a common API and
+writes his application to use the common API. As new key management systems
+support the common API, he is able to easily integrate these new systems.
           </li>
         </ul>
 
         <p>
-As a result of documenting and analyzing the use cases document, the following
+As a result of documenting and analyzing the use cases, the following
 desirable ecosystem characteristics were identified for this specification:
         </p>
-<!-- requirement list start -->
+
         <ul>
           <li>
-TBD
+A standard data model for Web-based Key Management Systems MUST be defined.
           </li>
+          <li>
+A standard HTTP API MUST be defined.
+          </li>
+          <li>
+Common key operations such as create, sign, verify, wrap, unwrap, encrypt,
+and decrypt MUST be supported.
+          </li>
+          <li>
+Utilizing private key material MUST be supported without the need to
+exfiltrate the key.
+          </li>
+          <li>
+Executing cryptographic functions MUST be delegatable on a per-key basis.
+          </li>
+          <li>
+Each keystore MUST be able to support one or more controller.
+          </li>
+        </ul>
       </section>
 
       <section id="conformance" class="normative">
