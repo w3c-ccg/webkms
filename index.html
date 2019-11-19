@@ -211,22 +211,33 @@ System to provide a Web-based API that enables clients to create keys and
 execute cryptographic operations using those keys by invoking ZCAPs.
         </p>
         <p>
-  The Web KMS API allows users to create keystores (a type of "object") that they control (the user is the "controller" of the keystore)
+The WebKMS API enables clients to create keystores, a type of <em>object</em>,
+that they control. That is, the client is the <a>controller</a> of the keystore.
+The client may also generate a key, another type of <em>object</em>, and
+associate it with a keystore. Each keystore is identified by a URI. In
+addition, the controller of a keystore can be changed to enable the transfer
+of keys without requiring the exfiltration of the key. Other entities can
+also be added as controllers of the keystore such that multiple parties might
+control the keystore without having access to the raw key material.
         </p>
         <p>
-  The keystore has a method for generating a key (another type of "object") of a certain "type" and associating it with that keystore
+Each key in the keystore has an associated set of <em>functions</em> according
+to the type of key that it is. Examples of key types include keys used for
+performing asymmetric cryptographic operations such as digital signatures and
+keys used for performing symmetric cryptographic operations such as
+encryption and decryption. These <em>functions</em> can be remotely executed
+via the use of ZCAPs such that the cryptographic key material never
+needs to be exfiltrated in order to use the key. In many hardware-backed
+cryptographic key management systems, the exfiltration of keys is not
+supported and the system itself is hardened against tampering with the
+intent to exfiltrate the keys.
         </p>
         <p>
-  Each keystore and key is identified by a URI
-        </p>
-        <p>
-  Each key has a set of "methods", according to its "type", that can be remotely executed via zcaps, such that the key material need never be exfiltrated in order to use the key
-        </p>
-        <p>
-  In order to execute a method on a key, a KmsOperation of a specific type can be posted to the key URL (using HTTPS), including a zcap invocation via http signatures
-        </p>
-        <p>
-  A keystore's controller can be changed to enable transfer of keys or to add other parties to help manage the keys
+In order to execute a <em>function</em> on a key, a <code>KmsOperation</code>
+of a specific type can be applied to the key, including a ZCAP that
+invokes the capability that demonstrates the authorization to perform the
+operation. For example, a KmsOperation might be constructed and POSTed to
+the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </p>
 
       </section>
