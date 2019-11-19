@@ -138,16 +138,29 @@ referred to as Key Management Systems. While many of these sorts of systems
 exist, there is no common interface for accessing and using these systems.
       </p>
       <p>
-If there were a common API, then you could create drivers for each specific KMS that map to the common API and write applications just once
+The creation of a common interface for accessing Key Management Systems would
+enable software to be written once to interact with these systems such that
+systems with different implementations and properties could be switched
+without affecting the client software that utlizes such systems. A common API
+would shift the burden of interacting with each implementation to the vendors
+of those systems, while eliminating the burden for application developers.
       </p>
       <p>
-Drivers could potentially even wrap keystores like FIDO, etc.
+While there are a variety of proprietary enterprise grade Key Management Systems today
+that would benefit from a common interface, personal Key Management Systems
+such as those created through the Fast Identity Online (FIDO) initiative could
+also benefit.
       </p>
       <p>
-If the API was a Web API then you can write Web Apps against this API and servers can offer one or more KMSes -- and potentially even allow users to bring their own
+If the interface is provided as a Web-based interface, then Web-based
+applications could be written against such an API. Similarly, Web-based
+applications could provide choice in Key Management Systems -- potentially
+allowing customers to bring their own Key Management Systems with them just as
+they bring their own devices today.
       </p>
       <p>
-There is a relatively small set of common crypto operations that KMSes provide:
+There is a relatively small set of common cryptographic operations that Key
+Management Systems provide. 
       </p>
       <p>
 A list is here: https://github.com/digitalbazaar/web-kms-switch/tree/http-sig/lib/schemas
