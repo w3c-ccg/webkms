@@ -1,3 +1,5 @@
+# Moved to: https://github.com/w3c-ccg/webkms
+
 ## WebKMS Specification
 
 This specification describes a mechanism for performing remote cryptographic
