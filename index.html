@@ -416,22 +416,22 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.kmsModule</td>
+            <td>kmsModule</td>
             <td><code>string</code></td>
             <td>The KMS module to use.</td>
           </tr>
           <tr>
-            <td>options.type</td>
+            <td>type</td>
             <td><code>string</code></td>
             <td>The key type (e.g. &#39;AesKeyWrappingKey2019&#39;).</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -451,17 +451,17 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>[options.keyId]</td>
+            <td>[keyId]</td>
             <td><code>string</code></td>
             <td>The ID of the key.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -481,17 +481,17 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.capabilityToRevoke</td>
+            <td>capabilityToRevoke</td>
             <td><code>map</code></td>
             <td>The capability to enable.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zcap authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -511,22 +511,22 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.kekId</td>
+            <td>kekId</td>
             <td><code>string</code></td>
             <td>The ID of the wrapping key to use.</td>
           </tr>
           <tr>
-            <td>options.unwrappedKey</td>
+            <td>unwrappedKey</td>
             <td><code>Uint8Array</code></td>
             <td>The unwrapped key material as   a Uint8Array.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -548,22 +548,22 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.kekId</td>
+            <td>kekId</td>
             <td><code>string</code></td>
             <td>The ID of the unwrapping key to use.</td>
           </tr>
           <tr>
-            <td>options.wrappedKey</td>
+            <td>wrappedKey</td>
             <td><code>string</code></td>
             <td>The wrapped key material as a   base64url-encoded string.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -587,22 +587,22 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.keyId</td>
+            <td>keyId</td>
             <td><code>string</code></td>
             <td>The ID of the signing key to use.</td>
           </tr>
           <tr>
-            <td>options.data</td>
+            <td>data</td>
             <td><code>Uint8Array</code></td>
             <td>The data to sign as a Uint8Array.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -626,27 +626,27 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.keyId</td>
+            <td>keyId</td>
             <td><code>string</code></td>
             <td>The ID of the signing key to use.</td>
           </tr>
           <tr>
-            <td>options.data</td>
+            <td>data</td>
             <td><code>Uint8Array</code></td>
             <td>The data to verify as a Uint8Array.</td>
           </tr>
           <tr>
-            <td>options.signature</td>
+            <td>signature</td>
             <td><code>string</code></td>
             <td>The base64url-encoded signature to   verify.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -670,22 +670,22 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.keyId</td>
+            <td>keyId</td>
             <td><code>string</code></td>
             <td>The ID of the key agreement key to use.</td>
           </tr>
           <tr>
-            <td>options.publicKey</td>
+            <td>publicKey</td>
             <td><code>map</code></td>
             <td>The public key to compute the shared   secret against; the public key type must match the key agreement key&#39;s   type.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -707,17 +707,17 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.capabilityToEnable</td>
+            <td>capabilityToEnable</td>
             <td><code>map</code></td>
             <td>The capability to enable.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -741,17 +741,17 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.id</td>
+            <td>id</td>
             <td><code>map</code></td>
             <td>The ID of the capability to revoke.</td>
           </tr>
           <tr>
-            <td>[options.capability]</td>
+            <td>[capability]</td>
             <td><code>string</code></td>
             <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
           </tr>
           <tr>
-            <td>options.invocationSigner</td>
+            <td>invocationSigner</td>
             <td><code>map</code></td>
             <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
           </tr>
@@ -773,12 +773,12 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.url</td>
+            <td>url</td>
             <td><code>string</code></td>
             <td>The url to post the configuration to.</td>
           </tr>
           <tr>
-            <td>options.config</td>
+            <td>config</td>
             <td><code>string</code></td>
             <td>The keystore&#39;s configuration.</td>
           </tr>
@@ -798,7 +798,7 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>options.id</td>
+            <td>id</td>
             <td><code>string</code></td>
             <td>The keystore&#39;s ID.</td>
           </tr>
@@ -818,17 +818,17 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
         </thead>
         <tbody>
           <tr>
-            <td>[options.url]</td>
+            <td>[url]</td>
             <td><code>string</code></td>
             <td>The url to query.</td>
           </tr>
           <tr>
-            <td>options.controller</td>
+            <td>controller</td>
             <td><code>string</code></td>
             <td>The keystore&#39;s controller.</td>
           </tr>
           <tr>
-            <td>options.referenceId</td>
+            <td>referenceId</td>
             <td><code>string</code></td>
             <td>The keystore&#39;s reference ID.</td>
           </tr>
