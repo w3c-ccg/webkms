@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WebKMS v0.1</title>
+    <title>WebKMS v0.7</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      -->
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c' class='remove'></script>
     <script src="./common.js" class="remove"></script>
     <script type="text/javascript" class="remove">
       var respecConfig = {
         // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
-        specStatus: "UNOFFICIAL",
+        specStatus: "CG-DRAFT",
 
         // the specification's short name, as in http://www.w3.org/TR/short-name/
         shortName: "webkms",
@@ -25,13 +25,8 @@
         //publishDate: "2019-03-26",
         //crEnd: "2019-04-23",
         //implementationReportURI: "https://w3c.github.io/sdh-test-suite",
-        //previousMaturity: "CG-DRAFT",
-        //previousPublishDate: "2019-02-08",
-
-        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-        // and its maturity status
-        // previousPublishDate:  "1977-03-15",
-        // previousMaturity:  "WD",
+        previousMaturity: "UNOFFICIAL",
+        previousPublishDate: "2020-12-29",
 
         // extend the bibliography entries
         localBiblio: ccg.localBiblio,
@@ -65,20 +60,7 @@
             company: "Digital Bazaar", companyURL: "https://digitalbazaar.com/" }
         ],
         // name of the WG
-        //wg:           "Credentials Community Group",
-
-        // URI of the public WG page
-        //wgURI:        "https://www.w3.org/community/credentials/",
-
-        // name (with the @w3c.org) of the public mailing to which comments are due
-        //wgPublicList: "public-credentials",
-
-        // URI of the patent status for this WG, for Rec-track documents
-        // !!!! IMPORTANT !!!!
-        // This is important for Rec-track documents, do not copy a patent URI from a random
-        // document unless you know what you're doing. If in doubt ask your friendly neighborhood
-        // Team Contact.
-        //wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/98922/status",
+        group: "credentials",
         maxTocLevel: 2,
         inlineCSS: true
       };
@@ -288,8 +270,7 @@ TBD
     <section class="informative">
       <h2>Terminology</h2>
 
-      <div data-include="./terms.html"
-        data-oninclude="restrictReferences">
+      <div data-include="./terms.html">
       </div>
     </section>
 
@@ -348,10 +329,514 @@ the key URL with an invocation of a ZCAP performed via HTTP Signatures.
 
     </section>
 
-    <section class="normative">
-      <h2>Data Model</h2>
+    <section>
+      <h2>HTTP API</h2>
+
+      <dl>
+        <dt><a href="#webkms_generateKey">generateKey(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Generates a new cryptographic key in the keystore.</p>
+        </dd>
+        <dt><a href="#webkms_getKeyDescription">getKeyDescription(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Gets the key description for the given key ID.</p>
+        </dd>
+        <dt><a href="#webkms_revokeCapability">revokeCapability(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Store a capability revocation.</p>
+        </dd>
+        <dt><a href="#webkms_wrapKey">wrapKey(options)</a> ⇒ <code>&lt;string&gt;</code></dt>
+        <dd>
+          <p>Wraps a cryptographic key using a key encryption key (KEK).</p>
+        </dd>
+        <dt><a href="#webkms_unwrapKey">unwrapKey(options)</a> ⇒ <code>&lt;(Uint8Array|null)&gt;</code></dt>
+        <dd>
+          <p>Unwraps a cryptographic key using a key encryption key (KEK).</p>
+        </dd>
+        <dt><a href="#webkms_sign">sign(options)</a> ⇒ <code>&lt;string&gt;</code></dt>
+        <dd>
+          <p>Signs some data. Note that the data will be sent to the server, so if
+            this data is intended to be secret it should be hashed first. However,
+            hashing the data first may present interoperability issues so choose
+            wisely.
+          </p>
+        </dd>
+        <dt><a href="#webkms_verify">verify(options)</a> ⇒ <code>&lt;boolean&gt;</code></dt>
+        <dd>
+          <p>Verifies some data. Note that the data will be sent to the server, so if
+            this data is intended to be secret it should be hashed first. However,
+            hashing the data first may present interoperability issues so choose
+            wisely.
+          </p>
+        </dd>
+        <dt><a href="#webkms_deriveSecret">deriveSecret(options)</a> ⇒ <code>&lt;Uint8Array&gt;</code></dt>
+        <dd>
+          <p>Derives a shared secret via the given peer public key, typically for use
+            as one parameter for computing a shared key. It should not be used as
+            a shared key itself, but rather input into a key derivation function (KDF)
+            to produce a shared key.
+          </p>
+        </dd>
+        <dt><a href="#webkms_enableCapability">enableCapability(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Stores a delegated authorization capability, enabling it to be invoked by
+            its designated invoker.
+          </p>
+        </dd>
+        <dt><a href="#webkms_disableCapability">disableCapability(options)</a> ⇒ <code>&lt;boolean&gt;</code></dt>
+        <dd>
+          <p>Removes a previously stored delegated authorization capability, preventing
+            it from being invoked by its designated invoker.
+          </p>
+        </dd>
+        <dt><a href="#webkms_createKeystore">createKeystore(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Creates a new keystore using the given configuration.</p>
+        </dd>
+        <dt><a href="#webkms_getKeystore">getKeystore(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Gets the configuration for a keystore by its ID.</p>
+        </dd>
+        <dt><a href="#webkms_findKeystore">findKeystore(options)</a> ⇒ <code>&lt;map&gt;</code></dt>
+        <dd>
+          <p>Finds the configuration for a keystore by its controller and reference ID.</p>
+        </dd>
+      </dl>
+
+      <section><h3 name="webkms_generateKey">generateKey(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Generates a new cryptographic key in the keystore.</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - The key description for the key.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.kmsModule</td>
+            <td><code>string</code></td>
+            <td>The KMS module to use.</td>
+          </tr>
+          <tr>
+            <td>options.type</td>
+            <td><code>string</code></td>
+            <td>The key type (e.g. &#39;AesKeyWrappingKey2019&#39;).</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_getKeyDescription"></a></p>
+      </section><section><h3 id="getkeydescription-options-code-lt-map-gt-code-">getKeyDescription(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Gets the key description for the given key ID.</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - The key description.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[options.keyId]</td>
+            <td><code>string</code></td>
+            <td>The ID of the key.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_revokeCapability"></a></p>
+      </section><section><h3 id="revokecapability-options-code-lt-map-gt-code-">revokeCapability(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Store a capability revocation.</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - Resolves once the operation completes.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.capabilityToRevoke</td>
+            <td><code>map</code></td>
+            <td>The capability to enable.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zcap authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_wrapKey"></a></p>
+      </section><section><h3 id="wrapkey-options-code-lt-string-gt-code-">wrapKey(options) ⇒ <code>&lt;string&gt;</code></h3>
+      <p>Wraps a cryptographic key using a key encryption key (KEK).</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;string&gt;</code> - The base64url-encoded wrapped key bytes.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.kekId</td>
+            <td><code>string</code></td>
+            <td>The ID of the wrapping key to use.</td>
+          </tr>
+          <tr>
+            <td>options.unwrappedKey</td>
+            <td><code>Uint8Array</code></td>
+            <td>The unwrapped key material as   a Uint8Array.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_unwrapKey"></a></p>
+      </section><section><h3 id="unwrapkey-options-code-lt-uint8array-null-gt-code-">unwrapKey(options) ⇒ <code>&lt;(Uint8Array|null)&gt;</code></h3>
+      <p>Unwraps a cryptographic key using a key encryption key (KEK).</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;(Uint8Array|null)&gt;</code> - Resolves to the unwrapped key material
+        or null if the unwrapping failed because the key did not match.
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.kekId</td>
+            <td><code>string</code></td>
+            <td>The ID of the unwrapping key to use.</td>
+          </tr>
+          <tr>
+            <td>options.wrappedKey</td>
+            <td><code>string</code></td>
+            <td>The wrapped key material as a   base64url-encoded string.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_sign"></a></p>
+      </section><section><h3 id="sign-options-code-lt-string-gt-code-">sign(options) ⇒ <code>&lt;string&gt;</code></h3>
+      <p>Signs some data. Note that the data will be sent to the server, so if
+        this data is intended to be secret it should be hashed first. However,
+        hashing the data first may present interoperability issues so choose
+        wisely.
+      </p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;string&gt;</code> - The base64url-encoded signature.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.keyId</td>
+            <td><code>string</code></td>
+            <td>The ID of the signing key to use.</td>
+          </tr>
+          <tr>
+            <td>options.data</td>
+            <td><code>Uint8Array</code></td>
+            <td>The data to sign as a Uint8Array.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_verify"></a></p>
+      </section><section><h3 id="verify-options-code-lt-boolean-gt-code-">verify(options) ⇒ <code>&lt;boolean&gt;</code></h3>
+      <p>Verifies some data. Note that the data will be sent to the server, so if
+        this data is intended to be secret it should be hashed first. However,
+        hashing the data first may present interoperability issues so choose
+        wisely.
+      </p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;boolean&gt;</code> - <code>true</code> if verified, <code>false</code> if not.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.keyId</td>
+            <td><code>string</code></td>
+            <td>The ID of the signing key to use.</td>
+          </tr>
+          <tr>
+            <td>options.data</td>
+            <td><code>Uint8Array</code></td>
+            <td>The data to verify as a Uint8Array.</td>
+          </tr>
+          <tr>
+            <td>options.signature</td>
+            <td><code>string</code></td>
+            <td>The base64url-encoded signature to   verify.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_deriveSecret"></a></p>
+      </section><section><h3 id="derivesecret-options-code-lt-uint8array-gt-code-">deriveSecret(options) ⇒ <code>&lt;Uint8Array&gt;</code></h3>
+      <p>Derives a shared secret via the given peer public key, typically for use
+        as one parameter for computing a shared key. It should not be used as
+        a shared key itself, but rather input into a key derivation function (KDF)
+        to produce a shared key.
+      </p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;Uint8Array&gt;</code> - The shared secret bytes.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.keyId</td>
+            <td><code>string</code></td>
+            <td>The ID of the key agreement key to use.</td>
+          </tr>
+          <tr>
+            <td>options.publicKey</td>
+            <td><code>map</code></td>
+            <td>The public key to compute the shared   secret against; the public key type must match the key agreement key&#39;s   type.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_enableCapability"></a></p>
+      </section><section><h3 id="enablecapability-options-code-lt-map-gt-code-">enableCapability(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Stores a delegated authorization capability, enabling it to be invoked by
+        its designated invoker.
+      </p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - Resolves once the operation completes.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.capabilityToEnable</td>
+            <td><code>map</code></td>
+            <td>The capability to enable.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_disableCapability"></a></p>
+      </section><section><h3 id="disablecapability-options-code-lt-boolean-gt-code-">disableCapability(options) ⇒ <code>&lt;boolean&gt;</code></h3>
+      <p>Removes a previously stored delegated authorization capability, preventing
+        it from being invoked by its designated invoker.
+      </p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;boolean&gt;</code> - Resolves to <code>true</code> if the document was deleted
+        and <code>false</code> if it did not exist.
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.id</td>
+            <td><code>map</code></td>
+            <td>The ID of the capability to revoke.</td>
+          </tr>
+          <tr>
+            <td>[options.capability]</td>
+            <td><code>string</code></td>
+            <td>The zCAP-LD authorization   capability to use to authorize the invocation of this operation.</td>
+          </tr>
+          <tr>
+            <td>options.invocationSigner</td>
+            <td><code>map</code></td>
+            <td>An API with an   <code>id</code> property and a <code>sign</code> function for signing a capability invocation.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_createKeystore"></a></p>
+      </section><section><h3 id="createkeystore-options-code-lt-map-gt-code-">createKeystore(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Creates a new keystore using the given configuration.</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - Resolves to the configuration for the newly
+        created keystore.
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.url</td>
+            <td><code>string</code></td>
+            <td>The url to post the configuration to.</td>
+          </tr>
+          <tr>
+            <td>options.config</td>
+            <td><code>string</code></td>
+            <td>The keystore&#39;s configuration.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_getKeystore"></a></p>
+      </section><section><h3 id="getkeystore-options-code-lt-map-gt-code-">getKeystore(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Gets the configuration for a keystore by its ID.</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - Resolves to the configuration for the keystore.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>options.id</td>
+            <td><code>string</code></td>
+            <td>The keystore&#39;s ID.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a name="webkms_findKeystore"></a></p>
+      </section><section><h3 id="findkeystore-options-code-lt-map-gt-code-">findKeystore(options) ⇒ <code>&lt;map&gt;</code></h3>
+      <p>Finds the configuration for a keystore by its controller and reference ID.</p>
+      <p><strong>Response</strong>: HTTP 200 -  <code>&lt;map&gt;</code> - Resolves to the configuration for the keystore.</p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Param</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[options.url]</td>
+            <td><code>string</code></td>
+            <td>The url to query.</td>
+          </tr>
+          <tr>
+            <td>options.controller</td>
+            <td><code>string</code></td>
+            <td>The keystore&#39;s controller.</td>
+          </tr>
+          <tr>
+            <td>options.referenceId</td>
+            <td><code>string</code></td>
+            <td>The keystore&#39;s reference ID.</td>
+          </tr>
+        </tbody>
+      </table>
 
     </section>
+  </section>
 
   <section class="informative">
     <h2>Privacy Considerations</h2>
